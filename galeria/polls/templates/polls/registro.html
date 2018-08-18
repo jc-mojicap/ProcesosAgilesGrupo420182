@@ -1,0 +1,77 @@
+<!--{# Load the tag library #}-->
+<!--{# load bootstrap3 %}-->
+
+<!--{# Load CSS and JavaScript #}-->
+<!--{# bootstrap_css %}-->
+<!--{# bootstrap_javascript %}-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+    <script>
+        function enviarForm() {
+            if($('#password').val() != $('#password2').val()){
+                alert(('Las contraseñas no coinciden'));
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:9000/polls/addUser/",
+                data: JSON.stringify({
+                    username: $('#username').val(),
+                    first_name: $('#first_name').val(),
+                    last_name: $('#last_name').val(),
+                    password: $('#password').val(),
+                    email: $('#email').val()
+                }),
+                contentType: "application/json; charset=UTF-8",
+                dataType: "json",
+                success: function (data) {
+                    window.location = "http://localhost:9000/polls/verImagenes"
+                },
+                failure: function (errMsg) {
+                    alert("Hubo un error.")
+                    
+                }
+            });
+            return false;
+        }
+    </script>
+</head>
+<body>
+<!--{# block content %}-->
+<div class="row">
+    <div class="col-md-6 col-sm-offset-3">
+        <div class="page-header">
+            <h2>Sign up</h2>
+        </div>
+
+        <form method="post" action="" onsubmit="return enviarForm();">
+            <input id="username" name="username" type="text" placeholder="User name" class="form-control input-md" required=""><br>
+            <input id="first_name" name="first_name" type="text" placeholder="First name" class="form-control input-md" required=""><br>
+            <input id="last_name" name="last_name" type="text" placeholder="Last name" class="form-control input-md" required=""><br>
+            <input id="email" name="email" type="email" placeholder="Email" class="form-control input-md" required=""><br>
+            <input id="password" name="password" type="password" placeholder="Password" class="form-control input-md" required=""><br>
+            <input id="password2" name="password2" type="password" placeholder="Verifica password" class="form-control input-md" required=""><br>
+            <input type="submit" value="Registrar" class="btn btn-primary"><br>
+            <a href="http://localhost:9000/polls/verImagenes" class="btn btn-primary">Cancel</a>
+            <!--{#  csrf_token %}-->
+            <!--{#  bootstrap_form form %}-->
+            <!--{#  buttons %}-->
+                <!--<input type="submit" value="Registrar" class="btn btn-primary">-->
+            <!--<a href="{# url 'images:index' %}" class="btn btn-primary">Cancelar</a>-->
+            <!--{#  endbuttons %}-->
+        </form>
+
+    </div>
+
+</div>
+<!--{# endblock %}-->
+</body>
+</html>
